@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat '"C:\msys64\ucrt64\bin\g++.exe" main.cpp -o app.exe'
+                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" main.cpp -o app.exe'
             }
         }
 
