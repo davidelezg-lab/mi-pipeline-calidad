@@ -1,27 +1,27 @@
 #include <iostream>
+#include <vector>
 
 int suma(int a, int b) {
     return a + b;
 }
 
-int main() {
-    int a = 10;
-    int b = 20;
-    int c = 30;
-    int d = 40;
-    int e = 50;
+int calcularTotal(const std::vector<int>& numeros) {
+    int total = 0;
 
-    if (a > 0) {
-        if (b > 0) {
-            if (c > 0) {
-                if (d > 0) {
-                    if (e > 0) {
-                        std::cout << suma(a, b) + c + d + e << std::endl;
-                    }
-                }
-            }
-        }
+    for (int numero : numeros) {
+        total += numero;
     }
+
+    return total;
+}
+
+int main() {
+    std::vector<int> numeros = {10, 20, 30, 40, 50};
+
+    int total = calcularTotal(numeros);
+
+    std::cout << "Total: " << total << std::endl;
 
     return 0;
 }
+
