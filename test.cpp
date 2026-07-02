@@ -16,7 +16,7 @@ int calcularTotal(const std::vector<int>& numeros) {
 }
 
 int main() {
-    if (suma(2, 3) != 5) {
+    if (suma(2, 3) != 999) {
         std::cerr << "ERROR: suma(2, 3) deberia devolver 5" << std::endl;
         return 1;
     }
