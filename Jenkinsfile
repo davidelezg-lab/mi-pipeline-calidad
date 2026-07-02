@@ -12,12 +12,14 @@ pipeline {
                 echo 'Compilando aplicacion principal con cobertura...'
 
                 bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" --coverage main.cpp -o app.exe'
+
+                echo 'Ejecutando aplicacion principal para generar cobertura de main.cpp...'
+                bat 'app.exe'
             }
         }
 
         stage('Test') {
             steps {
-
                 echo 'Compilando tests con cobertura...'
 
                 bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" --coverage test.cpp -o test.exe'
@@ -30,20 +32,33 @@ pipeline {
             }
         }
 
+        stage('Ver ficheros de cobertura') {
+            steps {
+                echo 'Mostrando ficheros .gcno y .gcda generados...'
+
+                bat 'dir *.gcno'
+                bat 'dir *.gcda'
+            }
+        }
+
         stage('Generar Cobertura') {
             steps {
+                echo 'Generando informes gcov desde todos los ficheros .gcno...'
 
-                echo 'Generando informe gcov...'
+                bat '''
+                for %%F in (*.gcno) do (
+                    echo Procesando %%F
+                    "C:\\msys64\\ucrt64\\bin\\gcov.exe" "%%F"
+                )
+                '''
 
-                bat '"C:\\msys64\\ucrt64\\bin\\gcov.exe" main.cpp'
-
+                echo 'Mostrando informes .gcov generados...'
                 bat 'dir *.gcov'
             }
         }
 
         stage('Analisis SonarCloud') {
             steps {
-
                 echo 'Enviando analisis a SonarCloud...'
 
                 withSonarQubeEnv('SonarCloud') {
@@ -54,7 +69,6 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-
                 echo 'Esperando resultado del Quality Gate...'
 
                 timeout(time: 5, unit: 'MINUTES') {
@@ -65,10 +79,9 @@ pipeline {
 
         stage('Publish') {
             steps {
-
                 echo 'Publicando artefactos...'
 
-                archiveArtifacts artifacts: '*.gcov,app.exe,test.exe,resultado-tests.txt',
+                archiveArtifacts artifacts: 'app.exe,test.exe,resultado-tests.txt,*.gcno,*.gcda,*.gcov',
                                  fingerprint: true
             }
         }
