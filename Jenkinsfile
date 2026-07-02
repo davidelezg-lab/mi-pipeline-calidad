@@ -19,7 +19,7 @@ pipeline {
         stage('Analisis SonarCloud') {
             steps {
                 withSonarQubeEnv('SonarCloud') {
-                    bat 'sonar-scanner'
+                    bat '"C:\\sonar-scanner\\bin\\sonar-scanner.bat"'
                 }
             }
         }
@@ -29,7 +29,6 @@ pipeline {
                 archiveArtifacts artifacts: 'app.exe', fingerprint: true
             }
         }
-
     }
 }
 
