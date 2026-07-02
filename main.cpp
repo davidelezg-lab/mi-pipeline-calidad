@@ -1,38 +1,29 @@
 #include <iostream>
 
-int dividir(int a, int b){
-    return a / b;
+int suma(int a, int b) {
+    return a + b;
 }
 
-int multiplicar(int a, int b){
-    return a * b;
-}
-
-int resta(int a, int b){
+int resta(int a, int b) {
     return a - b;
 }
 
-int suma(int a, int b) {
+int multiplicar(int a, int b) {
+    return a * b;
+}
 
-    int resultado = 0;
+int dividir(int a, int b) {
 
-    if (a > 0) {
-        if (b > 0) {
-            if (a < 100) {
-                if (b < 100) {
-                    resultado = a + b;
-                }
-            }
-        }
+    if (b == 0) {
+        return 0;
     }
 
-    return resultado;
+    return a / b;
 }
 
 int main() {
-    int resultado = suma(10, 20);
 
-    std::cout << resultado << std::endl;
+    std::cout << suma(10, 20) << std::endl;
 
     return 0;
 }
