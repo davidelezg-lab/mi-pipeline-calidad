@@ -1,17 +1,20 @@
 pipeline {
     agent any
 
-    stages {
+    environment {
+        SCANNER_HOME = 'C:\Users\DAVID ELEZ\AppData\Roaming\npm'
+    }
 
+    stages {
         stage('Build') {
             steps {
-                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" main.cpp -o app.exe'
+                bat '"C:\msys64\ucrt64\bin\g++.exe" main.cpp -o app.exe'
             }
         }
 
         stage('Test') {
             steps {
-                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" test.cpp -o test.exe'
+                bat '"C:\msys64\ucrt64\bin\g++.exe" test.cpp -o test.exe'
                 bat 'test.exe'
             }
         }
@@ -19,7 +22,15 @@ pipeline {
         stage('Analisis SonarCloud') {
             steps {
                 withSonarQubeEnv('SonarCloud') {
-                    bat '"C:\\sonar-scanner\\bin\\sonar-scanner.bat"'
+                    bat 'sonar-scanner'
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
@@ -31,4 +42,5 @@ pipeline {
         }
     }
 }
+
 
