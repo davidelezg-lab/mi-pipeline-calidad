@@ -10,7 +10,8 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat '"C:\msys64\ucrt64\bin\g++.exe" test.cpp -o test.exe'
+                // ✔️ Corregido: Añadidas las dobles barras '\\' para evitar el error de escape
+                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" test.cpp -o test.exe'
                 bat 'test.exe'
             }
         }
