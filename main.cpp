@@ -9,7 +9,7 @@ int main() {
 
     char buffer[10];
 
-    gets(buffer);
+    fgets(buffer, sizeof(buffer), stdin);
 
     std::cout << buffer << std::endl;
 
