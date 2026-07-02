@@ -9,23 +9,43 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Compilando aplicación principal...'
-                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" main.cpp -o app.exe'
+                echo 'Compilando aplicacion principal con cobertura...'
+
+                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" --coverage main.cpp -o app.exe'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Compilando y ejecutando tests...'
-                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" test.cpp -o test.exe'
+
+                echo 'Compilando tests con cobertura...'
+
+                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" --coverage test.cpp -o test.exe'
+
+                echo 'Ejecutando tests...'
+
                 bat 'test.exe > resultado-tests.txt'
+
                 bat 'type resultado-tests.txt'
+            }
+        }
+
+        stage('Generar Cobertura') {
+            steps {
+
+                echo 'Generando informe gcov...'
+
+                bat '"C:\\msys64\\ucrt64\\bin\\gcov.exe" main.cpp'
+
+                bat 'dir *.gcov'
             }
         }
 
         stage('Analisis SonarCloud') {
             steps {
-                echo 'Ejecutando análisis SonarCloud...'
+
+                echo 'Enviando analisis a SonarCloud...'
+
                 withSonarQubeEnv('SonarCloud') {
                     bat '"C:\\sonar-scanner\\bin\\sonar-scanner.bat"'
                 }
@@ -34,7 +54,9 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-                echo 'Comprobando Quality Gate...'
+
+                echo 'Esperando resultado del Quality Gate...'
+
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
@@ -43,8 +65,11 @@ pipeline {
 
         stage('Publish') {
             steps {
+
                 echo 'Publicando artefactos...'
-                archiveArtifacts artifacts: 'app.exe,test.exe,resultado-tests.txt', fingerprint: true
+
+                archiveArtifacts artifacts: '*.gcov,app.exe,test.exe,resultado-tests.txt',
+                                 fingerprint: true
             }
         }
     }
@@ -64,7 +89,7 @@ pipeline {
         }
 
         always {
-            echo 'Fin de la ejecución.'
+            echo 'Fin de la ejecucion.'
         }
     }
 }
