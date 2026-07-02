@@ -6,15 +6,16 @@ pipeline {
     }
 
     stages {
+
         stage('Build') {
             steps {
-                bat '"C:\msys64\ucrt64\bin\g++.exe" main.cpp -o app.exe'
+                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" main.cpp -o app.exe'
             }
         }
 
         stage('Test') {
             steps {
-                bat '"C:\msys64\ucrt64\bin\g++.exe" test.cpp -o test.exe'
+                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" test.cpp -o test.exe'
                 bat 'test.exe'
             }
         }
@@ -22,7 +23,7 @@ pipeline {
         stage('Analisis SonarCloud') {
             steps {
                 withSonarQubeEnv('SonarCloud') {
-                    bat 'sonar-scanner'
+                    bat '"C:\\sonar-scanner\\bin\\sonar-scanner.bat"'
                 }
             }
         }
@@ -39,6 +40,20 @@ pipeline {
             steps {
                 archiveArtifacts artifacts: 'app.exe', fingerprint: true
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completada correctamente.'
+        }
+
+        failure {
+            echo 'Pipeline fallida.'
+        }
+
+        unstable {
+            echo 'Pipeline inestable.'
         }
     }
 }
