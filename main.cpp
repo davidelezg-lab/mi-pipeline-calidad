@@ -23,7 +23,15 @@ int dividir(int a, int b) {
 
 int main() {
 
-    std::cout << suma(10, 20) << std::endl;
+    std::cout << suma(10,20) << std::endl;
+
+    std::cout << resta(20,10) << std::endl;
+
+    std::cout << multiplicar(3,4) << std::endl;
+
+    std::cout << dividir(20,4) << std::endl;
+
+    std::cout << dividir(10,0) << std::endl;
 
     return 0;
 }
