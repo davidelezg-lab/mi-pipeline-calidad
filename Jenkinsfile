@@ -1,26 +1,37 @@
 pipeline {
     agent any
 
+    environment {
+        SCANNER_HOME = 'C:\Users\DAVID ELEZ\AppData\Roaming\npm'
+    }
+
     stages {
         stage('Build') {
             steps {
-                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" main.cpp -o app.exe'
+                bat '"C:\msys64\ucrt64\bin\g++.exe" main.cpp -o app.exe'
             }
         }
 
         stage('Test') {
             steps {
-                // ✔️ Corregido: Añadidas las dobles barras '\\' para evitar el error de escape
-                bat '"C:\\msys64\\ucrt64\\bin\\g++.exe" test.cpp -o test.exe'
+                bat '"C:\msys64\ucrt64\bin\g++.exe" test.cpp -o test.exe'
                 bat 'test.exe'
+            }
+        }
+
+        stage('Analisis SonarCloud') {
+            steps {
+                withSonarQubeEnv('SonarCloud') {
+                    bat 'sonar-scanner'
+                }
             }
         }
 
         stage('Publish') {
             steps {
-                echo 'Publicando artefacto generado...'
                 archiveArtifacts artifacts: 'app.exe', fingerprint: true
             }
         }
     }
 }
+
