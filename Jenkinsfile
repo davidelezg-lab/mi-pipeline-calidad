@@ -81,7 +81,7 @@ pipeline {
             steps {
                 echo 'Publicando artefactos...'
 
-                archiveArtifacts artifacts: 'app.exe,test.exe,resultado-tests.txt,*.gcno,*.gcda,*.gcov',
+                archiveArtifacts artifacts: 'programa.exe,test.exe,resultado-tests.txt,*.gcno,*.gcda,*.gcov',
                                  fingerprint: true
             }
         }
