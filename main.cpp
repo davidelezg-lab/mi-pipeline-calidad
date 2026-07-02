@@ -11,3 +11,7 @@ int main() {
 
     return 0;
 }
+
+int multiplicar(int a, int b) {
+    return a * b;
+}
