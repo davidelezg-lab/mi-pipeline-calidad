@@ -4,15 +4,41 @@ int suma(int a, int b) {
     return a + b;
 }
 
+int resta(int a, int b) {
+    return a - b;
+}
+
+int multiplicar(int a, int b) {
+    return a * b;
+}
+
+int dividir(int a, int b) {
+    return a / b;
+}
+
 int main() {
 
+    // SUMA
     if (suma(2, 3) != 5) {
-        std::cerr << "ERROR: suma(2, 3) deberia devolver 5" << std::endl;
+        std::cerr << "ERROR SUMA" << std::endl;
         return 1;
     }
 
-    if (suma(10, 20) != 30) {
-        std::cerr << "ERROR: suma(10, 20) deberia devolver 30" << std::endl;
+    // RESTA
+    if (resta(10, 4) != 6) {
+        std::cerr << "ERROR RESTA" << std::endl;
+        return 1;
+    }
+
+    // MULTIPLICAR
+    if (multiplicar(3, 4) != 12) {
+        std::cerr << "ERROR MULTIPLICAR" << std::endl;
+        return 1;
+    }
+
+    // DIVIDIR
+    if (dividir(20, 4) != 5) {
+        std::cerr << "ERROR DIVIDIR" << std::endl;
         return 1;
     }
 
