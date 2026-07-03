@@ -8,12 +8,8 @@ int resta(int a, int b) {
     return a - b;
 }
 
-/*
- * MISMO ERROR QUE EXISTE EN main.cpp
- * Simulamos que el código productivo está roto.
- */
 int multiplicar(int a, int b) {
-    return a + b;
+    return a * b;
 }
 
 int dividir(int a, int b) {
@@ -27,20 +23,28 @@ int dividir(int a, int b) {
 
 int main() {
 
+    // SUMA
+
     if (suma(2, 3) != 5) {
         std::cerr << "ERROR SUMA" << std::endl;
         return 1;
     }
+
+    // RESTA
 
     if (resta(10, 4) != 6) {
         std::cerr << "ERROR RESTA" << std::endl;
         return 1;
     }
 
+    // MULTIPLICACIÓN
+
     if (multiplicar(3, 4) != 12) {
         std::cerr << "ERROR MULTIPLICAR" << std::endl;
         return 1;
     }
+
+    // DIVISIÓN
 
     if (dividir(20, 4) != 5) {
         std::cerr << "ERROR DIVIDIR" << std::endl;
